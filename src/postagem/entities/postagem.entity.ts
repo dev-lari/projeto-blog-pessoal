@@ -1,6 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+//lá no banco de dados, isso aqui vai ser criado dentro de uma tabela chamada tb_postagem; 
 @Entity({name: 'tb_postagem'}) // ele especifica que isso abaixo é uma entidade pelo typeORM, sempre vai ter o nome da tabela
 
 export class Postagem{
@@ -13,10 +14,10 @@ export class Postagem{
     titulo: string; 
 
     @IsNotEmpty()
-    @Column({length: 1000, nullable: false})
+    @Column({length: 1000, nullable: false}) //o nullabe false diz que NÃO PODE ser falso; 
     texto: string; 
 
-    @UpdateDateColumn() // ele atualiza toda vez que a gente mudar objeto, quando inserir algo no banco
+    @UpdateDateColumn() // ele atualiza toda vez que a gente inserir algo no banco, gerencia a data das postagens
     data: Date; 
 }
 

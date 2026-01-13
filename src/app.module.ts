@@ -4,7 +4,7 @@ import { Postagem } from './postagem/entities/postagem.entity';
 import { PostagemModule } from './postagem/postagem.module';
 
 //Configurar para o banco de dados;
-@Module({
+@Module({ //é pedindo para as linhas abaixo se comportarem como um módulo; 
   imports: [
     TypeOrmModule.forRoot({
     type: 'mysql', 
@@ -16,9 +16,13 @@ import { PostagemModule } from './postagem/postagem.module';
     entities: [Postagem],
     synchronize: true,
   }),
+  //O módulo responsável por postagem, para criar a tabela precisa ir nesse módulo: 
   PostagemModule,  
 ],
   controllers: [],
   providers: [],
 })
 export class AppModule {}
+
+//todos os decorator começam com @, é para falar o que a linha de baixo vai se comportar de tal jeito; 
+// é quando estou chamando algo do nest ou do typeORM pra fazer algo pra mim
