@@ -1,5 +1,6 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Tema } from "../tema/entities/tema.entity";
 
 //lá no banco de dados, isso aqui vai ser criado dentro de uma tabela chamada tb_postagem; 
 @Entity({name: 'tb_postagem'}) // ele especifica que isso abaixo é uma entidade pelo typeORM, sempre vai ter o nome da tabela
@@ -19,6 +20,14 @@ export class Postagem{
 
     @UpdateDateColumn() // ele atualiza toda vez que a gente inserir algo no banco, gerencia a data das postagens
     data: Date; 
+
+    @ManyToOne(() => Tema, (tema) => tema.postagem, {
+        //O muito para um vai ser com a tabela tema, lá na tabela tema, você vai encontrar um atributo postagem
+        onDelete: "CASCADE"
+        // se eu deletar o tema, as postagens que faz parte desse tema também serão deletadas. 
+    })
+
+    tema: Tema
 }
 
 //precisa colocar esses @ do typeORM para ele fazer o link com o banco de dados e atualizar de acordo com os dados entrando

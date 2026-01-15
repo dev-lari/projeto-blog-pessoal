@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Postagem } from './postagem/entities/postagem.entity';
 import { PostagemModule } from './postagem/postagem.module';
+import { Tema } from './postagem/tema/entities/tema.entity';
+import { TemaModule } from './postagem/tema/tema.module';
 
 //Configurar para o banco de dados;
 @Module({ //é pedindo para as linhas abaixo se comportarem como um módulo; 
@@ -13,11 +15,12 @@ import { PostagemModule } from './postagem/postagem.module';
     username: 'root',
     password: 'root',
     database: 'db_blogpessoal', 
-    entities: [Postagem],
+    entities: [Postagem, Tema],
     synchronize: true,
   }),
   //O módulo responsável por postagem, para criar a tabela precisa ir nesse módulo: 
   PostagemModule,  
+  TemaModule 
 ],
   controllers: [],
   providers: [],

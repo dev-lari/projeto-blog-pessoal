@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, ILike, Repository } from "typeorm";
 import { Postagem } from "../entities/postagem.entity";
+import { TemaService } from "../tema/services/tema.service";
 
 /* 
  indica que a classe é um serviço, ou seja, uma classe que pode ser injetada em outras classes por meio da Injeção de Dependências.
@@ -16,15 +17,20 @@ export class PostagemService {
     //recebe as injeções de dependência necessárias para o desenvolvimento da classe de serviço.
     constructor( //na hora q ele for criado, quero que ele entenda
         @InjectRepository(Postagem)
-        private postagemRepository: Repository<Postagem> //toda vez que alguém precisar, você pode injetar o repository 
+        private postagemRepository: Repository<Postagem>, //toda vez que alguém precisar, você pode injetar o repository 
         // (ele cria pra mim o meu objeto, o meu new alguma coisa) com base na postagem. É tipo uma herança
+        private temaService: TemaService
     ) { }
 
     //Repository é um cara do TYPEORM, ele consegue fazer pedidos para o meu banco de dados; 
 
     //é chamado para retornar todos os registros da entidade Postagem. Em termos SQL, o método find() seria o SELECT * FROM tb_postagens;
     async findAll(): Promise<Postagem[]> { //procurar por tudo, promessa de trazer postagem em lista pq são todas as postagens
-        return await this.postagemRepository.find(); 
+        return await this.postagemRepository.find({
+            relations: {
+                tema: true
+            }
+        });
     }
 
     //get por ID; findById é o nome em inglês que dei pra o método (procurar por Id). Toda vez que for chamado, vai receber um id do tipo nome, a promessa é ele retornar uma postagem;
@@ -34,7 +40,11 @@ export class PostagemService {
         where: { //onde tenha esse número de id: 
             id,
         },
+         relations: {
+                tema: true
+        }
     });
+
     if (!postagem){ //verifica se não tem postagem ! (é não)
         throw new HttpException('A postagem não foi encontrada', HttpStatus.NOT_FOUND,);
         
@@ -48,17 +58,25 @@ export class PostagemService {
         return await this.postagemRepository.find({
             where: {
                 titulo: ILike(`%${titulo}%`)
+            }, 
+             relations: {
+                tema: true
             }
         })
     }    
 
     //vou te mandar uma postagem, salva ela no banco de dados; 
     async create(postagem: Postagem): Promise<Postagem> { 
+
+        await this.temaService.findById(postagem.tema.id)
+
         return await this.postagemRepository.save(postagem);        
     }
 
     async update(postagem: Postagem): Promise<Postagem>{
         await this.findById(postagem.id)
+
+        await this.temaService.findById(postagem.tema.id)
 
         return await this.postagemRepository.save(postagem);
     }
