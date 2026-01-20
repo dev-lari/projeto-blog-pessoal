@@ -4,6 +4,9 @@ import { Postagem } from './postagem/entities/postagem.entity';
 import { PostagemModule } from './postagem/postagem.module';
 import { Tema } from './postagem/tema/entities/tema.entity';
 import { TemaModule } from './postagem/tema/tema.module';
+import { AuthModule } from './auth/auth.module';
+import { Usuario } from './usuario/entities/usuario.entity';
+import { UsuarioModule } from './usuario/usuario.module';
 
 //Configurar para o banco de dados;
 @Module({ //é pedindo para as linhas abaixo se comportarem como um módulo; 
@@ -15,12 +18,14 @@ import { TemaModule } from './postagem/tema/tema.module';
     username: 'root',
     password: 'root',
     database: 'db_blogpessoal', 
-    entities: [Postagem, Tema],
+    entities: [Postagem, Tema, Usuario],
     synchronize: true,
   }),
   //O módulo responsável por postagem, para criar a tabela precisa ir nesse módulo: 
   PostagemModule,  
-  TemaModule 
+  TemaModule,
+  AuthModule, 
+  UsuarioModule
 ],
   controllers: [],
   providers: [],

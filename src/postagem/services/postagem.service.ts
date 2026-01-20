@@ -28,7 +28,8 @@ export class PostagemService {
     async findAll(): Promise<Postagem[]> { //procurar por tudo, promessa de trazer postagem em lista pq são todas as postagens
         return await this.postagemRepository.find({
             relations: {
-                tema: true
+                tema: true,
+                usuario: true
             }
         });
     }
@@ -41,7 +42,8 @@ export class PostagemService {
             id,
         },
          relations: {
-                tema: true
+                tema: true,
+                usuario: true
         }
     });
 
@@ -60,7 +62,8 @@ export class PostagemService {
                 titulo: ILike(`%${titulo}%`)
             }, 
              relations: {
-                tema: true
+                tema: true,
+                usuario: true
             }
         })
     }    
@@ -92,5 +95,5 @@ export class PostagemService {
 //async: é uma função assincrona, não precisa falar o que está fazendo, pode fazer em segundo plano; é quem vai no banco de dados, Não é coisa instantanea, vou precisar esperar.
 // buscar as info. Mas alguém precisa mandar ele fazer.
 //promise: promete se vai ver se tem o pedido, se não tiver, ele não retorna nada. 
-//return await: aguarda o retorno do promise trazer o que foi pedido; 
+//return await: aguarda o retorno do promise trazer do banco de dados o que foi pedido; 
 // O exemplo que Thiago deu comigo pedindo para eu pegar uma coca; 
