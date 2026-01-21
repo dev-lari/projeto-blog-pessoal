@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { Postagem } from "../entities/postagem.entity";
 import { PostagemService } from "../services/postagem.service";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
 
 //O usuário manda um pedido pra Controller, ele entende o pedido do usuário e chama quem sabe fazer, que é o postagemService; 
+@UseGuards(JwtAuthGuard)
 @Controller("/postagens")
 export class PostagemController{
     constructor(private readonly postagemService: PostagemService) {} //ele injeta a service aqui para a controller poder chamar;
