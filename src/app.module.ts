@@ -7,6 +7,7 @@ import { TemaModule } from './postagem/tema/tema.module';
 import { AuthModule } from './auth/auth.module';
 import { Usuario } from './usuario/entities/usuario.entity';
 import { UsuarioModule } from './usuario/usuario.module';
+import { AppController } from './app.controller';
 
 //Configurar para o banco de dados;
 @Module({ //é pedindo para as linhas abaixo se comportarem como um módulo; 
@@ -27,7 +28,7 @@ import { UsuarioModule } from './usuario/usuario.module';
   AuthModule, 
   UsuarioModule
 ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}

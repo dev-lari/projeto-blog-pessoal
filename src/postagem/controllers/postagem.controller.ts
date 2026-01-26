@@ -2,11 +2,14 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 import { Postagem } from "../entities/postagem.entity";
 import { PostagemService } from "../services/postagem.service";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 
 //O usuário manda um pedido pra Controller, ele entende o pedido do usuário e chama quem sabe fazer, que é o postagemService; 
+@ApiTags('Postagem')
 @UseGuards(JwtAuthGuard)
 @Controller("/postagens")
+@ApiBearerAuth()
 export class PostagemController{
     constructor(private readonly postagemService: PostagemService) {} //ele injeta a service aqui para a controller poder chamar;
 
