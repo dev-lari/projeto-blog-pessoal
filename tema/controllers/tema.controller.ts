@@ -41,7 +41,7 @@ export class TemaController{
         return this.temaService.update(tema);
     }
 
-    @Delete('/id')
+    @Delete('/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
     delete(@Param('id', ParseIntPipe) id: number){
         return this.temaService.delete(id);
